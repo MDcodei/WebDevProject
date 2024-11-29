@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .activeTab {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .activeTab:hover {
+    background-color: #0056b3;
+  }
+  
+  .inactiveTab {
+    background-color: #f8f9fa;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .inactiveTab:hover {
+    background-color: #e2e6ea;
+  }
+  

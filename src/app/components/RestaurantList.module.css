@@ -1,0 +1,101 @@
+.recent {
+    padding: 20px;
+  }
+  
+  .iconImage {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+  
+  .recentTitle {
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .restaurantList {
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+  
+  .restaurantItem {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+  }
+  
+  .restaurantImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 50px;
+  }
+  
+  .restaurantDetails {
+    flex-grow: 1;
+  }
+  
+  .restaurantName {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .restaurantCuisine {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  .restaurantRating {
+    font-size: 20px;
+    color: #ff9800;
+  }
+  
+  .restaurantButtons {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .directionsButton,
+  .menuButton {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    width: 150px; 
+    height: 40px; 
+    padding: 10px 20px; 
+  }
+  
+  .directionsButton {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .menuButton {
+    border: 1px solid #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+    
+  }
+  
+  .directionsButton:hover {
+    background-color: #45a049;
+  }
+  
+  .menuButton:hover {
+    background-color: #bce4bd;
+    color: white;
+  }
+  
