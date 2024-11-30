@@ -1,9 +1,10 @@
+
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import Saved from "../saved/page";  
+//import Saved from "../saved/page";  
 
 interface HomeMapsNewProps {
   searchedPlace: string;
@@ -12,10 +13,12 @@ interface HomeMapsNewProps {
 const libraries: ('places' | 'geometry' | 'drawing')[] = ["places"];
 
 
+
+
 const HomeMapsNew: React.FC<HomeMapsNewProps> = ({ searchedPlace }) => {
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
-    lat: 37.7749, 
-    lng: -122.4194,
+    lat: 33.7490, 
+    lng: -84.3880,
   });
   const [markerPosition, setMarkerPosition] = useState<{ lat: number; lng: number } | null>(null);
   const [restaurants, setRestaurants] = useState<
@@ -110,9 +113,9 @@ const HomeMapsNew: React.FC<HomeMapsNewProps> = ({ searchedPlace }) => {
     setSavedPlaces((prev) => {
       const exists = prev.some((place) => place.name === restaurant.name);
       const updatedPlaces = exists
-        ? prev.filter((place) => place.name !== restaurant.name) // Remove if already saved
-        : [...prev, restaurant]; // Add new restaurant
-      localStorage.setItem("savedPlaces", JSON.stringify(updatedPlaces)); // Persist to localStorage
+        ? prev.filter((place) => place.name !== restaurant.name) 
+        : [...prev, restaurant]; 
+      localStorage.setItem("savedPlaces", JSON.stringify(updatedPlaces)); 
       return updatedPlaces;
     });
   };
@@ -217,12 +220,22 @@ return (
               </button>
             </div>
             <button
-                onClick={() =>
-                  window.open(
-                    `https://www.google.com/maps/dir/?api=1&destination=${restaurant.location.lat},${restaurant.location.lng}`,
-                    "_blank"
-                  )
-                }
+                onClick={() => {
+                  if (!markerPosition) {
+                    alert("Unable to determine your current location.");
+                    return;
+                  }
+              
+                  
+                  const originLat = markerPosition.lat;
+                  const originLng = markerPosition.lng;
+              
+                  
+                  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${originLat},${originLng}&destination=${restaurant.location.lat},${restaurant.location.lng}`;
+              
+                  
+                  window.open(googleMapsUrl, "_blank");
+                }}
                 style={{
                   marginTop: "10px",
                   padding: "8px 10px",

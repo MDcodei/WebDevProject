@@ -5,12 +5,12 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%', 
-  height: '520px' // Adjust the height as needed
+  height: '520px' 
 };
 
 const getRandomLandCoordinates = () => {
-  const latRange = [25, 49];     // Latitude range for North America
-  const lngRange = [-125, -66];  // Longitude range for North America
+  const latRange = [25, 49];     
+  const lngRange = [-125, -66];  
 
   return {
     lat: Math.random() * (latRange[1] - latRange[0]) + latRange[0],
@@ -22,7 +22,6 @@ const getRandomLandCoordinates = () => {
 const HomeMaps = () => {
   const [center, setCenter] = useState(getRandomLandCoordinates());
 
-  // Optional: Update center coordinates every time the component mounts
   useEffect(() => {
     setCenter(getRandomLandCoordinates());
   }, []);
@@ -43,9 +42,8 @@ const HomeMaps = () => {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
-          onLoad={() => console.log("Map loaded successfully")} // Log map load status
+          onLoad={() => console.log("Map loaded successfully")} 
         >
-          {/* Add any markers or other features here */}
         </GoogleMap>
       </LoadScript>
     </div>

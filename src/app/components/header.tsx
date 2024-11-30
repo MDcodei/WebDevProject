@@ -18,8 +18,8 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
   });
 
   const handleContinueAsGuestClick = () => {
-    onContinueAsGuest(); // Trigger parent handler to open the location form
-    toggleModal(); // Close the Get Started modal
+    onContinueAsGuest(); 
+    toggleModal(); 
   };
   
   const toggleModal = () => {
@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if all required fields are filled
+    
     if (isCreatingAccount) {
       const { firstName, lastName, email, password } = formData;
       if (!firstName || !lastName || !email || !password) {
@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
     }
 
     onSignIn();
-    toggleModal(); // Close the modal after signing in
+    toggleModal(); 
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
