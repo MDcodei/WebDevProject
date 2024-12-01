@@ -220,6 +220,35 @@ const HomeMapsNew: React.FC<HomeMapsNewProps> = ({ searchedPlace }) => {
                   )}
                 </button>
               </div>
+              <button
+                onClick={() => {
+                  if (!markerPosition) {
+                    alert("Unable to determine your current location.");
+                    return;
+                  }
+              
+                  
+                  const originLat = markerPosition.lat;
+                  const originLng = markerPosition.lng;
+              
+                  
+                  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${originLat},${originLng}&destination=${restaurant.location.lat},${restaurant.location.lng}`;
+              
+                  
+                  window.open(googleMapsUrl, "_blank");
+                }}
+                style={{
+                  marginTop: "10px",
+                  padding: "8px 10px",
+                  backgroundColor: "#007BFF",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Get Directions
+              </button>
             </div>
           ))
         ) : (
