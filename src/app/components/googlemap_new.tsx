@@ -260,3 +260,5 @@ const HomeMapsNew: React.FC<HomeMapsNewProps> = ({ searchedPlace }) => {
 };
 
 export default HomeMapsNew;
+
+
