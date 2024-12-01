@@ -20,38 +20,13 @@ export default function Home() {
     router.push('/');
   };
 
-  const sampleRestaurants = [
-    {
-      id: 1,
-      name: 'Clocked',
-      cuisine: 'Hamburger',
-      rating: 4,
-      image: 'https://lh3.googleusercontent.com/p/AF1QipMGw1_I0j_OS-IURfd6mVI4Bg2k6fJCRVYs1PhZ=s1360-w1360-h1020',
-    },
-    {
-      id: 2,
-      name: 'Taichi Bubble Tea',
-      cuisine: 'Korean',
-      rating: 4,
-      image: 'https://lh3.googleusercontent.com/p/AF1QipNSBoTnNsbDLioNuzVOoalsya65dqNYHCM_6Nzw=s1360-w1360-h1020',
-    },
-    {
-      id: 3,
-      name: 'Chick Fil-A',
-      cuisine: 'Chicken Sandwiches',
-      rating: 5,
-      image: 'https://tb-static.uber.com/prod/image-proc/processed_images/33342b28ddc237e11897199b43e08a83/a19bb09692310dfd41e49a96c424b3a6.jpeg',
-    },
-   ];
-   
-
   return (
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: "#FFFFE6"}}>
       {<NewHeader onLogOut={handleLogOut} />}
 
       <BackArrow/>
       
-      {<Saved restaurants={sampleRestaurants} />}
+      {<Saved />}
 
 
       {/* Footer remains constant */}

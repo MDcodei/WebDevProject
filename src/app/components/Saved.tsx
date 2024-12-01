@@ -15,12 +15,24 @@ const Saved: React.FC = () => {
     }
   }, []);
 
+  const handleDelete = (index: number) => {
+    const updatedPlaces = savedPlaces.filter((_, i) => i !== index); // Remove the restaurant by index
+    setSavedPlaces(updatedPlaces);
+    localStorage.setItem("savedPlaces", JSON.stringify(updatedPlaces)); // Update localStorage
+  };
+
   return (
     <div className={styles.saved}>
       {savedPlaces.length > 0 ? (
         <div className={styles.restaurantList}>
           {savedPlaces.map((restaurant, index) => (
             <div key={index} className={styles.restaurantItem}>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDelete(index)} // Delete restaurant
+              >
+                X   
+              </button>
               {restaurant.photo ? (
                 <img
                   src={restaurant.photo}
@@ -28,14 +40,22 @@ const Saved: React.FC = () => {
                   className={styles.restaurantImage}
                 />
               ) : (
-                <div className={styles.restaurantImage} style={{ backgroundColor: "#ddd", display: "flex", alignItems: "center", justifyContent: "center", color: "#555" }}>
+                <div
+                  className={styles.restaurantImage}
+                  style={{
+                    backgroundColor: "#ddd",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#555",
+                  }}
+                >
                   No Image
                 </div>
               )}
               <div className={styles.restaurantDetails}>
                 <strong className={styles.restaurantName}>{restaurant.name}</strong>
                 <p className={styles.restaurantAddress}>{restaurant.address}</p>
-                
               </div>
               <div className={styles.restaurantButtons}>
                 <button
@@ -53,13 +73,15 @@ const Saved: React.FC = () => {
                   <button
                     className={styles.webpageButton}
                     onClick={() =>
-                      window.open(`https://www.google.com/search?q=${encodeURIComponent(restaurant.name)}`, "_blank")
+                      window.open(
+                        `https://www.google.com/search?q=${encodeURIComponent(restaurant.name)}`,
+                        "_blank"
+                      )
                     }
                   >
                     Search Website
                   </button>
                 )}
-
               </div>
             </div>
           ))}

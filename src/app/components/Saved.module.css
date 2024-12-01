@@ -90,3 +90,26 @@
   margin-top: 5px; /* Space between the address and rating */
 }
 
+.deleteButton {
+  margin-right: 30px;
+  margin-bottom: 100px;
+  top: 8px;
+  left: 8px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.deleteButton:hover {
+  background-color: #ff4c4c;
+}
