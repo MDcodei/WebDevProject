@@ -7,7 +7,6 @@ import Header from '../components/header';
 import Body from '../components/body_hp';
 import NewHeader from "../components/newheader";
 import NewBody from "../components/newbody_hp";
-import Recent from "../components/Recent";
 import Saved from "../components/Saved";
 
 export default function Home() {
