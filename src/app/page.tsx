@@ -14,14 +14,20 @@ export default function Home() {
   const [isGuest, setIsGuest] = useState(false);
   const router = useRouter(); // Initialize the Next.js router
 
+  // Modify handleSignIn to match the expected signature for Header's onSignIn
   const handleSignIn = () => {
-    setIsSignedIn(true);
-    router.push('/main'); // Redirect to /main after signing in
+    const isSuccessful = true; // Replace with actual logic to determine if sign-in was successful
+    if (isSuccessful) {
+      setIsSignedIn(true);
+      router.push('/main'); // Redirect to /main after successful sign-in
+    } else {
+      router.push('/'); // Redirect to / if sign-in fails
+    }
   };
-
+  
   const handleContinueAsGuest = () => {
     setIsGuest(true);
-    //router.push('/main'); // Redirect to /main for guests  //not yet impletemented because authentication isn't implemented yet //use useContext for authentication.
+    // router.push('/main'); // Redirect to /main for guests // not yet implemented because authentication isn't implemented yet // use useContext for authentication.
   };
 
   const handleLogOut = () => {
@@ -30,7 +36,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "#FFFFE6"}}>
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "#FFFFE6" }}>
       {/* Header remains the same if the user is a guest; changes only when signed in */}
       {isSignedIn ? <NewHeader onLogOut={handleLogOut} /> : <Header onSignIn={handleSignIn} onContinueAsGuest={handleContinueAsGuest} />}
       

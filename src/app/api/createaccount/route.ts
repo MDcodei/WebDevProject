@@ -1,12 +1,18 @@
+import { connectMongoDB } from "@/app/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import User from "@/app/models/user";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
     try {
         // Parse the request body and extract the data
         const { firstname, lastname, email, password } = await req.json();
 
+        await connectMongoDB();
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await User.create({firstname, lastname, email, password: hashedPassword});
         // Log the extracted data for debugging purposes
-        console.log("Firstname: ", firstname);
+        console.log("Firstname: ", firstname,);
         console.log("Lastname: ", lastname);
         console.log("Email: ", email);
         console.log("Password: ", password);
@@ -20,6 +26,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         return NextResponse.json(
             { message: "An error occurred while registering the user." },
             { status: 500 }
+            
         );
     }
 }
+

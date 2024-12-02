@@ -11,8 +11,8 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
     password: ''
   });
@@ -35,77 +35,104 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
     setIsCreatingAccount(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const [error, setError] = useState("");
 
-    if (isCreatingAccount) {
-      // Handling account creation
-      const { firstName, lastName, email, password } = formData;
-      console.log("Extracted Last Name:", lastName);
-      if (!firstName || !lastName || !email || !password) {
-        alert('Please fill in all fields.');
-        return;
-      }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-      try {
-        const response = await fetch('/api/createaccount', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            firstname: firstName,
-            lastName: lastName,
-            email,
-            password,
-          }),
-        });
+  const { firstname, lastname, email, password } = formData;
 
-        if (!response.ok) {
-          throw new Error('Failed to create account');
-        }
-
-        const result = await response.json();
-        console.log('Account created:', result);
-        alert('Account created successfully!');
-      } catch (error) {
-        console.error('Error creating account:', error);
-        alert('An error occurred while creating your account.');
-      }
-    } else {
-      // Handling sign-in
-      const { email, password } = formData;
-      if (!email || !password) {
-        alert('Please fill in all fields.');
-        return;
-      }
-
-      try {
-        const response = await fetch('/api/sign-in', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to sign in');
-        }
-
-        const result = await response.json();
-        console.log('Signed in:', result);
-        alert('Signed in successfully!');
-      } catch (error) {
-        console.error('Error signing in:', error);
-        alert('An error occurred while signing in.');
-      }
+  if (isCreatingAccount) {
+    // Handling account creation
+    if (!firstname || !lastname || !email || !password) {
+      alert("Please fill in all fields.");
+      return;
     }
 
-    // Call onSignIn and toggleModal only if the request was successful
-    onSignIn();
-    toggleModal();
-  };
+    try {
+      // Check if the user already exists
+      const resUserExists = await fetch("/api/userExists", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const { user } = await resUserExists.json();
+
+      if (user) {
+        alert("User with this email already exists.");
+        return;
+      }
+
+      // Create the account
+      const response = await fetch("/api/createaccount", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstname,
+          lastname,
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        throw new Error(message || "Failed to create account.");
+      }
+
+      const result = await response.json();
+      console.log("Account created:", result);
+      alert("Account created successfully!");
+    } catch (error: any) {
+      console.error("Error creating account:", error.message);
+      alert(error.message || "An error occurred while creating your account.");
+    }
+  } else {
+    // Handling sign-in
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        throw new Error(message || "Invalid email or password.");
+      }
+
+      const result = await response.json();
+      console.log("Signed in:", result);
+      alert("Signed in successfully!");
+    } catch (error: any) {
+      if (error.message.includes("Incorrect password")) {
+        alert("Incorrect password. Please try again.");
+      } else if (error.message.includes("User not found")) {
+        alert("User not found. Please register first.");
+      } else {
+        alert(error.message || "An error occurred while signing in.");
+      }
+
+      console.error("Error signing in:", error.message);
+    }
+  }
+
+  // Call onSignIn and toggleModal only if the request was successful
+  onSignIn();
+  toggleModal();
+};
 
 
 
@@ -159,9 +186,9 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
                       <label className="block text-gray-700 mb-2">First Name</label>
                       <input
                         type="text"
-                        name="firstName"
+                        name="firstname"
                         className="w-full border border-gray-300 p-2 rounded-2xl"
-                        value={formData.firstName}
+                        value={formData.firstname}
                         onChange={handleInputChange}
                         required
                       />
@@ -170,9 +197,9 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
                       <label className="block text-gray-700 mb-2">Last Name</label>
                       <input
                         type="text"
-                        name="lastName"
+                        name="lastname"
                         className="w-full border border-gray-300 p-2 rounded-2xl"
-                        value={formData.lastName}
+                        value={formData.lastname}
                         onChange={handleInputChange}
                         required
                       />
