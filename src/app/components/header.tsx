@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 
 
@@ -35,15 +37,16 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
     setIsCreatingAccount(false);
   };
 
+
+
 const [error, setError] = useState("");
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  const { firstname, lastname, email, password } = formData;
-
   if (isCreatingAccount) {
     // Handling account creation
+    const { firstname, lastname, email, password } = formData;
     if (!firstname || !lastname || !email || !password) {
       alert("Please fill in all fields.");
       return;
@@ -82,7 +85,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       if (!response.ok) {
         const { message } = await response.json();
-        throw new Error(message || "Failed to create account.");
+        throw new Error(message || "Failed to create account");
       }
 
       const result = await response.json();
@@ -94,6 +97,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
   } else {
     // Handling sign-in
+    const { email, password } = formData;
     if (!email || !password) {
       alert("Please fill in all fields.");
       return;
