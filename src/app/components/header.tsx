@@ -35,27 +35,79 @@ const Header: React.FC<HeaderProps> = ({ onSignIn, onContinueAsGuest }) => {
     setIsCreatingAccount(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    
     if (isCreatingAccount) {
+      // Handling account creation
       const { firstName, lastName, email, password } = formData;
+      console.log("Extracted Last Name:", lastName);
       if (!firstName || !lastName || !email || !password) {
         alert('Please fill in all fields.');
         return;
       }
+
+      try {
+        const response = await fetch('/api/createaccount', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstname: firstName,
+            lastName: lastName,
+            email,
+            password,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create account');
+        }
+
+        const result = await response.json();
+        console.log('Account created:', result);
+        alert('Account created successfully!');
+      } catch (error) {
+        console.error('Error creating account:', error);
+        alert('An error occurred while creating your account.');
+      }
     } else {
+      // Handling sign-in
       const { email, password } = formData;
       if (!email || !password) {
         alert('Please fill in all fields.');
         return;
       }
+
+      try {
+        const response = await fetch('/api/sign-in', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to sign in');
+        }
+
+        const result = await response.json();
+        console.log('Signed in:', result);
+        alert('Signed in successfully!');
+      } catch (error) {
+        console.error('Error signing in:', error);
+        alert('An error occurred while signing in.');
+      }
     }
 
+    // Call onSignIn and toggleModal only if the request was successful
     onSignIn();
-    toggleModal(); 
+    toggleModal();
   };
+
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
