@@ -1,14 +1,12 @@
 "use client";
+
 import profileUserImage from '../images/profile-user.png';
 import Image from 'next/image';  
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
+import { signOut } from "next-auth/react";
 
-interface NewHeaderProps {
-  onLogOut: () => void;
-}
-
-const NewHeader: React.FC<NewHeaderProps> = ({ onLogOut }) => {
+const NewHeader: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter(); 
 
@@ -20,9 +18,9 @@ const NewHeader: React.FC<NewHeaderProps> = ({ onLogOut }) => {
     router.push('/saved');
   };
 
-  /*const handleRecentClick = () => {
-    router.push('/recent');
-  };*/
+  const handleLogOut = async () => {
+    await signOut({ callbackUrl: '/' }); // Redirects to "Get Started" page after sign-out
+  };
 
   return (
     <div>
@@ -51,8 +49,6 @@ const NewHeader: React.FC<NewHeaderProps> = ({ onLogOut }) => {
               style={{ width: '90px' }}
               onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the dropdown
             >
-              
-              
               <div 
                 className="p-2 hover:bg-green-200 cursor-pointer text-black text-center"
                 onClick={handleSavedClick} 
@@ -61,7 +57,7 @@ const NewHeader: React.FC<NewHeaderProps> = ({ onLogOut }) => {
               </div>
               <div 
                 className="p-2 hover:bg-green-200 cursor-pointer text-red-600 text-center"
-                onClick={onLogOut}
+                onClick={handleLogOut}
               >
                 Log Out
               </div>

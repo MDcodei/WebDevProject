@@ -1,3 +1,6 @@
+// Saved.tsx
+"use client"; // This marks the file as a client component
+
 import React, { useEffect, useState } from "react";
 import styles from "./Saved.module.css";
 
