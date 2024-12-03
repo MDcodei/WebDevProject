@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 const SignUpForm: React.FC = () => {
   const [firstname, setFirstname] = useState("");
@@ -24,7 +25,20 @@ const SignUpForm: React.FC = () => {
 
         if (response.ok) {
             alert("Account created successfully!");
-            router.push("/main");
+
+            // Automatically sign the user in after account creation
+            const loginResponse = await signIn("credentials", {
+                redirect: false,
+                email,
+                password,
+            });
+
+            if (loginResponse?.ok) {
+                router.push("/main"); // Redirect to main page
+            } else {
+                alert("Failed to log in. Please log in manually.");
+                router.push("/login"); // Redirect to login page
+            }
         } else {
             const data = await response.json();
             alert(data.message || "Failed to create account.");
@@ -34,6 +48,7 @@ const SignUpForm: React.FC = () => {
         alert("Something went wrong. Please try again.");
     }
 };
+
 
 
   return (
